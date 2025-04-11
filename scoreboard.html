@@ -516,11 +516,11 @@
                 });
 
                 if (team1Total === team2Total) {
+                    downloadScoreboard();
                     const anim = document.getElementById("tie-animation");
                     anim.style.display = "block";
-
+                    
                     setTimeout(() => {
-                        downloadScoreboard();
                         window.location.href = "tie-break.html"; // 🔁 Update with your tie-breaker page
                     }, 15000);
                 } else {
