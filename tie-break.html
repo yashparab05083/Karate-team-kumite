@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>1v1 Match</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        
+        .scoreboard {
+            display: flex;
+            gap: 100px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #ffea00;
+        }
+
+        .player input {
+            font-size: 9rem;
+            padding: 10px;
+            margin-top: 10px;
+            width: 200px;
+            height: 90px;
+            text-align: center;
+            color: #ffea00;
+            background: none;
+            border: none;
+        }
+
+        button {
+            margin-top: 40px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: #ffea00;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .team-logo {
+            width: 350px;
+            height: auto;
+            flex-shrink: 0;
+            /* Prevents shrinking */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url(background2.avif);
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .vs-logo {
+            width: 300px;
+            height: auto;
+            flex-shrink: 0;
+            /* Prevents shrinking */
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1><img src="TIE-BREAKER-ROUND-4-10-2025 (1).png" class="mainlogo"></h1>
+
+    <div class="scoreboard">
+        <div class="player">
+            <label for="player2"><img src="aao-4-8-2025.png" class="team-logo"></label>
+            <input type="number" id="player1" value="0" min="0">
+        </div>
+        <img src="Vs-Logo.png" class="vs-logo">
+        <div class="player">  
+            <label for="player1"><img src="AKA-4-8-2025.png" class="team-logo"></label>
+            <input type="number" id="player2"  value="0" min="0">
+        </div>
+    </div>
+
+    <button onclick="submitScores()">NEXT MATCH</button>
+
+    <script>
+        function submitScores(){
+            window.location.href="index.html";
+        }
+    </script>
+
+</body>
+
+</html>

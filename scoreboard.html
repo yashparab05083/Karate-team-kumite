@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url(background.jpg) no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .scoreboard-container {
+            width: 100%;
+            /* overflow-x: auto; */
+            /* Enables horizontal scrolling if needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url(background.jpg);
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .scoreboard {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background: url(background2.avif) no-repeat center center;
+            background-size: cover;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            gap: 5px;
+        }
+
+        .scoreboard-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            z-index: -1;
+
+        }
+
+        .match div {
+            word-wrap: break-word;
+            word-break: break-word;
+            text-align: center;
+        }
+
+        .match div strong {
+            font-size: clamp(12px, 1.5vw, 16px);
+        }
+
+        .round {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+
+        }
+
+        .round h3 {
+            background: rgb(255, 234, 0, 0.78);
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        strong {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bolder;
+            /* Ensure good contrast */
+            text-shadow: 5px 5px 5px black;
+            /* Adds a glow effect */
+            /* Semi-transparent black */
+            color: white;
+            /* Ensure visibility */
+            padding: 5px 10px;
+            /* Add some space around the text */
+            border-radius: 5px;
+            /* Optional: rounded corners */
+            display: inline-block;
+        }
+
+        .round {
+            flex: 1;
+            /* Equal width for each inning */
+            min-width: 250px;
+            /* Ensures responsiveness */
+            max-width: 33%;
+            /* Limits width to prevent overflow */
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .matches {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            overflow: auto;
+        }
+
+        .match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            /* Increase width to prevent overflow */
+            margin: 10px 12px;
+            gap: 10px;
+            /* Adds spacing between elements */
+        }
+
+        .match div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            /* Prevents names from breaking */
+            flex: 1;
+            /* Ensures equal spacing */
+        }
+
+        .match input {
+            width: 40px;
+            /* Fixed width */
+            text-align: center;
+            padding: 5px;
+            font-size: 16px;
+            background: transparent;
+            color: #fff;
+            border: 1px solid white;
+            border-radius: 5px;
+            margin-left: 5px;
+            /* Space between name and input */
+        }
+
+        .match div,
+        .match span {
+            color: white;
+            font-weight: bold;
+        }
+
+        input {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            font-size: 16px;
+            background: transparent;
+            color: #fff;
+        }
+
+        .download-btn {
+            display: block;
+            margin: 20px auto;
+            /* This centers it horizontally */
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+
+        .tscore-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #183cbd;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            /* position: relative;
+            left: 234px; */
+        }
+
+        .vs-logo {
+            width: 50px;
+            height: auto;
+            flex-shrink: 0;
+            /* Prevents shrinking */
+        }
+
+        .team-logo {
+            width: 150px;
+            height: auto;
+            flex-shrink: 0;
+            /* Prevents shrinking */
+        }
+
+        .aiskf-logo {
+            width: 150px;
+            height: auto;
+            flex-shrink: 0;
+            border-radius: 71px;
+            /* Prevents shrinking */
+        }
+
+        .total-scores {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* background: url(background.jpg) no-repeat center center; */
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            /* margin-top: 20px; */
+            gap: 35px;
+            /* Adds space between elements */
+            width: auto;
+            /* position: relative;
+            left: 447px; */
+        }
+
+        .total-scores div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* Adds spacing between the text and score */
+        }
+
+        span {
+            font-size: 90px;
+            color: rgb(255, 234, 0, 0.78);
+            font-weight: bold;
+            position: relative;
+            padding: 6px;
+            /* top: -5px; */
+        }
+
+        .capture-area {
+            position: relative;
+            background: url(background2.avif) no-repeat center center fixed;
+            background-size: cover;
+            padding: 20px;
+            /* border-radius: 10px; */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #tie-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .tie-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tie-overlay h1 {
+            color: #ffea00;
+            font-size: 5rem;
+            text-shadow: 0 0 20px #ffea00, 0 0 40px #ff0000;
+            animation: pulse 1s infinite;
+            text-align: center;
+            margin: 0;
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .winner-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .win-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .win-overlay h1 {
+            color: #ffea00;
+            font-size: 5rem;
+            text-shadow: 0 0 20px #ffea00, 0 0 40px #ff0000;
+            animation: pulse 1s infinite;
+            text-align: center;
+            margin: 0;
+        }
+
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <div class="container">
+        <div id="scoreboard-container">
+            <div class="capture-area">
+
+                <div class="total-scores">
+                    <div><img src="AISKF_logo.jpeg" class="aiskf-logo"><strong><img src="aao-4-8-2025.png"
+                                class="team-logo"></strong> <span id="team1-total" class="scoretotal">0</span></div>
+                    <img src="Vs-Logo.png" class="vs-logo">
+                    <div><strong><img src="AKA-4-8-2025.png" class="team-logo"></strong> <span id="team2-total"
+                            class="scoretotal">0</span><img src="athelete_logo.jpeg" class="aiskf-logo"></div>
+                </div>
+
+                <div class="scoreboard" id="scoreboard"></div>
+            </div>
+        </div>
+        <button class="download-btn" onclick="checkIfAllFilledAndRedirect()">END SCORING</button>
+        <div id="winnerAnimation" class="hidden winner-animation">
+            <div class="win-overlay">
+                <h1><img id="winningTeamImage" src="" alt="Winning Team" /></h1>
+            </div>
+        </div>
+
+        <div id="tie-animation" style="display: none;">
+            <div class="tie-overlay">
+                <h1><img src="-IT-S-A-TIE-4-10-2025 (1).png" alt=""></h1>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        const matchData = JSON.parse(localStorage.getItem("matchData"));
+        if (!matchData) {
+            alert("No data found! Redirecting...");
+            window.location.href = "index.html";
+        }
+
+        function redirectToIndex() {
+            window.location.href = "index.html";
+        }
+        function attachScoreListeners() {
+            document.querySelectorAll(".score-input").forEach(input => {
+                input.addEventListener("input", calculatetotalscore);
+
+            });
+        }
+
+        function calculatetotalscore() {
+            let team1Total = 0;
+            let team2Total = 0;
+
+            document.querySelectorAll(".score-input").forEach(input => {
+                const value = parseInt(input.value) || 0;
+                const team = input.dataset.team;
+
+                if (team === "1") {
+                    team1Total += value;
+                } else if (team === "2") {
+                    team2Total += value;
+                }
+            });
+
+            document.getElementById("team1-total").textContent = team1Total;
+            document.getElementById("team2-total").textContent = team2Total;
+
+        }
+
+        function generateScoreboard() {
+            const { team1, team2, tossWinner } = matchData;
+            let team1Order, team2Order;
+
+            if (tossWinner === "team1") {
+                team1Order = [team1[0], team1[1], team1[2], team1[0], team1[1], team1[2], team1[0], team1[1], team1[2]];
+                team2Order = [team2[0], team2[1], team2[2], team2[1], team2[2], team2[0], team2[2], team2[0], team2[1]];
+            } else {
+                team1Order = [team1[0], team1[1], team1[2], team1[1], team1[2], team1[0], team1[2], team1[0], team1[1]];
+                team2Order = [team2[0], team2[1], team2[2], team2[0], team2[1], team2[2], team2[0], team2[1], team2[2]];
+            }
+
+            let scoreboardHTML = "";
+            for (let i = 0; i < 3; i++) {
+                scoreboardHTML += `<div class='round'><h3>INNING ${i + 1}</h3><div class="matches">`;
+                for (let j = 0; j < 3; j++) {
+                    const t1 = team1Order[j + i * 3];
+                    const t2 = team2Order[j + i * 3];
+                    scoreboardHTML += `
+                        <div class='match'>
+                            <div><strong>${t1}</strong> <input type='number' class='score-input' data-team='1' value="0" min="0"></div>
+                            <img src="Vs-Logo.png" class="vs-logo">
+                            <div><strong>${t2}</strong> <input type='number' class='score-input' data-team='2' value="0" min="0"></div>
+                        </div>
+                    `;
+                }
+                scoreboardHTML += `</div></div>`;
+            }
+            document.getElementById("scoreboard").innerHTML += scoreboardHTML;
+            attachScoreListeners();
+        }
+        function checkIfAllFilledAndRedirect() {
+            const inputs = Array.from(document.querySelectorAll(".score-input"));
+            const allFilled = inputs.every(input => input.value.trim() !== "");
+
+            if (allFilled) {
+                let team1Total = 0;
+                let team2Total = 0;
+
+                inputs.forEach(input => {
+                    const value = parseInt(input.value) || 0;
+                    const team = input.dataset.team;
+
+                    if (team === "1") {
+                        team1Total += value;
+                    } else if (team === "2") {
+                        team2Total += value;
+                    }
+                });
+
+                if (team1Total === team2Total) {
+                    const anim = document.getElementById("tie-animation");
+                    anim.style.display = "block";
+
+                    setTimeout(() => {
+                        downloadScoreboard();
+                        window.location.href = "tie-break.html"; // 🔁 Update with your tie-breaker page
+                    }, 15000);
+                } else {
+                    // Show winner animation with image
+                    const winnerAnim = document.getElementById("winnerAnimation");
+                    const winnerImg = document.getElementById("winningTeamImage");
+
+                    if (team1Total > team2Total) {
+                        downloadScoreboard();
+                        winnerImg.src = "-AAO-WINS-4-11-2025.png"; // ✅ Image for Team 1
+                    } else {
+                        downloadScoreboard();
+                        winnerImg.src = "-AKA-WINS-4-11-2025.png"; // ✅ Image for Team 2
+                    }
+
+                    winnerAnim.classList.remove("hidden");
+
+                    setTimeout(() => {
+                        winnerAnim.classList.add("hidden");
+                        window.location.href = "index.html";
+                    }, 10000);
+                }
+            }
+        }
+
+
+
+        function downloadScoreboard() {
+            const scoreboardElement = document.querySelector(".capture-area");
+
+            // Convert input fields to spans temporarily
+            const inputs = document.querySelectorAll(".score-input");
+            const replacements = [];
+
+            inputs.forEach(input => {
+                const span = document.createElement("span");
+                span.textContent = input.value || "0";
+                span.style.color = "white";
+                span.style.fontWeight = "bold";
+                span.style.fontSize = "30px";
+                span.classList.add("score-temp-span");
+
+                // Store reference to replace back
+                replacements.push({
+                    parent: input.parentNode,
+                    originalInput: input,
+                    span: span
+                });
+
+                input.parentNode.replaceChild(span, input);
+            });
+
+            html2canvas(scoreboardElement, {
+                backgroundColor: null,
+                useCORS: true,
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "scoreboard.png";
+                link.click();
+
+                // Restore the original inputs
+                replacements.forEach(({ parent, originalInput, span }) => {
+                    parent.replaceChild(originalInput, span);
+                });
+            });
+        }
+
+
+
+        generateScoreboard();
+        attachScoreListeners();
+
+    </script>
+
+</body>
+
+</html>
